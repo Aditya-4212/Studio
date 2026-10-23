@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  THEME COLORS
+  ------------
+  This is the ONLY place you need to edit to change the site's color scheme.
+  Swap the hex values below for another palette (e.g. emerald, rose, amber)
+  and the entire site — buttons, links, badges, focus rings — updates.
+*/
+:root {
+  --color-primary-50: #f5f6fd;
+  --color-primary-100: #ebedfb;
+  --color-primary-200: #d1d6f5;
+  --color-primary-300: #a9b3ec;
+  --color-primary-400: #7c8bdf;
+  --color-primary-500: #5865d1; /* base brand color */
+  --color-primary-600: #4550b4;
+  --color-primary-700: #383f92;
+  --color-primary-800: #2f3576;
+  --color-primary-900: #292e60;
+
+  --bg: 255 255 255;
+  --fg: 23 23 28;
+  --muted: 108 112 128;
+  --border: 235 236 242;
+  --card: 255 255 255;
+}
+
+.dark {
+  --color-primary-50: #1c1e2e;
+  --color-primary-100: #23263a;
+  --color-primary-200: #2d3050;
+  --color-primary-300: #3c4070;
+  --color-primary-400: #5259a0;
+  --color-primary-500: #7c86d8;
+  --color-primary-600: #9aa2e4;
+  --color-primary-700: #b6bced;
+  --color-primary-800: #d4d8f5;
+  --color-primary-900: #eef0fc;
+
+  --bg: 14 15 20;
+  --fg: 237 238 244;
+  --muted: 154 158 176;
+  --border: 38 40 52;
+  --card: 20 21 28;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--fg));
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+  ::selection {
+    @apply bg-primary-200 text-primary-900;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary-400 ring-offset-2 ring-offset-white dark:ring-offset-black;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply max-w-7xl mx-auto px-5 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium
+      transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none
+      min-h-[44px];
+  }
+  .btn-primary {
+    @apply btn bg-primary-500 text-white shadow-soft hover:bg-primary-600;
+  }
+  .btn-outline {
+    @apply btn border border-[rgb(var(--border))] text-[rgb(var(--fg))] hover:bg-primary-50 dark:hover:bg-primary-100/10;
+  }
+  .btn-ghost {
+    @apply btn text-[rgb(var(--fg))] hover:bg-primary-50 dark:hover:bg-primary-100/10;
+  }
+
+  .card {
+    @apply rounded-2xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] shadow-card;
+  }
+
+  .section {
+    @apply py-16 sm:py-20 lg:py-28;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-[rgb(var(--border))] bg-transparent px-4 py-3 text-sm
+      placeholder:text-[rgb(var(--muted))] focus:border-primary-400 transition-colors min-h-[44px];
+  }
+
+  .reveal {
+    @apply opacity-0;
+  }
+  .reveal.in-view {
+    @apply animate-fade-up;
+  }
+}
+
+/* Respect users who've asked for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

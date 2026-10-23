@@ -1,0 +1,91 @@
+// Prisma schema
+// Default datasource is SQLite for zero-config local development.
+// For production, switch provider to "postgresql" and set DATABASE_URL
+// to your Postgres connection string (e.g. from Supabase/Railway) — no
+// other code changes are required, Prisma Client API stays identical.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // change to "postgresql" for production
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hash
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model Inquiry {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  subject     String
+  message     String
+  status      String   @default("new") // new | contacted | archived
+  createdAt   DateTime @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  icon        String   @default("Sparkles") // lucide-react icon name
+  price       String?  // optional display price, e.g. "Starting at $499"
+  features    String   // JSON-encoded string array
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    String
+  summary     String
+  description String
+  coverImage  String
+  gallery     String   @default("[]") // JSON-encoded string array of image URLs
+  client      String?
+  completedAt DateTime?
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  role        String?
+  company     String?
+  avatar      String?
+  rating      Int      @default(5)
+  message     String
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model SiteSetting {
+  id    String @id @default("settings")
+  // JSON-encoded blob of editable homepage/business content,
+  // so the admin dashboard can update copy without redeploying.
+  data  String
+  updatedAt DateTime @updatedAt
+}
